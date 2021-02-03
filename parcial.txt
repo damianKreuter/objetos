@@ -9,6 +9,13 @@ class ArbolNavidenio{
     var regalos = #{}
     var adornos = #{}
 
+	method agregarRegalo(regaloN){
+		regalos.add(regaloN)
+	}
+	metod agregarAdorno(adorno){
+		adornos.add(adorno)
+	}
+	// putno 2
     method puedeContenerNuevoRegalo(capacidadArbol, capacidadRegalo){
         const capacidadFutura = self.capacidadActualDeRegalos()+capacidadRegalo
         if(capacidadFutura<=capacidadArbol){
@@ -18,31 +25,36 @@ class ArbolNavidenio{
         return false
     }
 
+// punto 1
     method capacidadActualDeRegalos(){
         return regalos.sum({regalo=>regalo.capacidad()})
     }
-
+	//punto 3 a
     method beneficiariosDelArbol(){
         const beneficiarios = regalos.map({regalo=>regalo.destinatario()})
         return beneficiarios.asSet()
     }
+	//punto 3 b
     method costoTotalDeRegalos(){
         return regalos.sum({regalo=>regalo.valor()})
     }
+	//punto 4
     method importanciaDeArbol(){
         return adornos.sum({adorno=>adorno.importancia()})
     }
-
+	//punto 5
     method existeUnRegaloTeQuieroMucho(){
         const precioPromedio = self. precioPromedioRegalo()
         return regalos.any({
             regalo=>regalo.esRegaloTeQuieroMucho(precioPromedio)
         })
     }
+//punto 6 a
     method precioPromedioRegalo(){
         const precioTotal = regalos.sum({regalo=>regalo.valor()})
         return precioTotal/regalos.size()
     }
+//punto 6 b
     method arbolPortentoso(){
         return self.tieneMasDe5TeQuieroMucho() || self.tieneAlgunaTarjetaConValorDe1000OMas()
     }
@@ -57,7 +69,7 @@ class ArbolNavidenio{
             regalo=>regalo.valorAdjunto)>=10000
         })
     }
-
+//punto 7
     method adornoMasPesado(){
         return adornos.max({
             adorno=>adorno.peso()
@@ -67,7 +79,7 @@ class ArbolNavidenio{
 ------------------------------------------------------------------------
 class Persona {
     var property regalos = #{}
-
+	
     method costoTotalDeRegalos(){
         return regalos.sum({regalo=>regalo.valor()})
     }
@@ -76,18 +88,15 @@ class Persona {
 class ArbolNatural inherits ArbolNavidenio {
     var edad
     var tamanioTrnoco
-
+	//punto 2
     method capacidadDeArbol(){
         return edad*tamanioTrnoco
-    }
-    method agregarRegalo(regalo){
-        
     }
 }
 ------------------------------------------------------------------------
 class ArbolArtificial inherits ArbolNavidenio {
     var varas
-
+	//punto 2
     method capacidadDeArbol(){
         return varas
     }
@@ -109,6 +118,7 @@ class Regalo inherits ObjetoNavidenio {
     method valorAdjunto(){
         return 0
     }
+//punto 6 a
     method esRegaloTeQuieroMucho(precioPromedio){
         return precioPromedio<precio
     }
@@ -117,10 +127,11 @@ class Regalo inherits ObjetoNavidenio {
 class Adorno {
     var property peso 
     var property coeficienteSuperioridad
-
+//punto 4
     method importancia(){
         return self.importanciaBase()
     }
+//punto 4
     method importanciaBase(){
         return peso*coeficienteSuperioridad
     }
@@ -136,6 +147,7 @@ class Luz inherits Adorno {
     }
 }
 ------------------------------------------------------------------------
+//punto 4
 class Guirnaldas inherits Adorno{
     var property anioAdquisicion
     override method peso(){
@@ -151,6 +163,7 @@ class Guirnaldas inherits Adorno{
 ------------------------------------------------------------------------
 class FiguraElaborada inherits Adorno{
     var property volumen
+//punto 4
     override method importanciaBase(){
         return self.importanciaBase()+volumen
     }
