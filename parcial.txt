@@ -1,0 +1,176 @@
+ARBOL NAVIDEÑO
+
+https://4924d24e-a-62cb3a1a-s-sites.googlegroups.com/site/paradigmasdeprogramacion/material/parciales/OBJ_NAVIDAD_20101218.pdf?attachauth=ANoY7couFc6QMuzonSl6Nzn9KvK14hxsKbQDogNXI_2rsh2Ycg7Wuz72BnRhmwT_nN9NG3Xv1zkzaCRy7GChNWlLAAqTb7icsZKpsfxZvXHgO8K8xTMAbREaD54W82RYBPkco2qbPm_jqTl7ulxQ8sL-nxDcFVVDjwlomTzDMDafyl_4OZydVPf8IYHmQARF3WJ4S7CKOY4JkN3vyfViTgH0A9CMAKbU5VRmHmip0aZ0zDQ9TtgOR2N0V_NP5aJX2MfJJFeSmbGKdh2wwYHONQ0wNLdT5iGTzg%3D%3D&attredirects=0
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+class ArbolNavidenio{
+    var regalos = #{}
+    var adornos = #{}
+
+    method puedeContenerNuevoRegalo(capacidadArbol, capacidadRegalo){
+        const capacidadFutura = self.capacidadActualDeRegalos()+capacidadRegalo
+        if(capacidadFutura<=capacidadArbol){
+            return true
+        }
+        self.error("No s epuede agregar nuevos regalos ya que supera la capacidad del arbol")
+        return false
+    }
+
+    method capacidadActualDeRegalos(){
+        return regalos.sum({regalo=>regalo.capacidad()})
+    }
+
+    method beneficiariosDelArbol(){
+        const beneficiarios = regalos.map({regalo=>regalo.destinatario()})
+        return beneficiarios.asSet()
+    }
+    method costoTotalDeRegalos(){
+        return regalos.sum({regalo=>regalo.valor()})
+    }
+    method importanciaDeArbol(){
+        return adornos.sum({adorno=>adorno.importancia()})
+    }
+
+    method existeUnRegaloTeQuieroMucho(){
+        const precioPromedio = self. precioPromedioRegalo()
+        return regalos.any({
+            regalo=>regalo.esRegaloTeQuieroMucho(precioPromedio)
+        })
+    }
+    method precioPromedioRegalo(){
+        const precioTotal = regalos.sum({regalo=>regalo.valor()})
+        return precioTotal/regalos.size()
+    }
+    method arbolPortentoso(){
+        return self.tieneMasDe5TeQuieroMucho() || self.tieneAlgunaTarjetaConValorDe1000OMas()
+    }
+    method tieneMasDe5TeQuieroMucho(){
+        const regalosFiltrados = regalos.filter({
+            regalo=>regalo.esRegaloTeQuieroMucho(precioPromedio)
+        })
+        return regalosFiltrados.size()>5
+    }
+    method tieneAlgunaTarjetaConValorDe1000OMas(){
+        return regalos.any({
+            regalo=>regalo.valorAdjunto)>=10000
+        })
+    }
+
+    method adornoMasPesado(){
+        return adornos.max({
+            adorno=>adorno.peso()
+        })
+    }
+}
+------------------------------------------------------------------------
+class Persona {
+    var property regalos = #{}
+
+    method costoTotalDeRegalos(){
+        return regalos.sum({regalo=>regalo.valor()})
+    }
+}
+------------------------------------------------------------------------
+class ArbolNatural inherits ArbolNavidenio {
+    var edad
+    var tamanioTrnoco
+
+    method capacidadDeArbol(){
+        return edad*tamanioTrnoco
+    }
+    method agregarRegalo(regalo){
+        
+    }
+}
+------------------------------------------------------------------------
+class ArbolArtificial inherits ArbolNavidenio {
+    var varas
+
+    method capacidadDeArbol(){
+        return varas
+    }
+
+
+}
+------------------------------------------------------------------------
+class ObjetoNavidenio{
+    var property capacidad
+}
+
+class Regalo inherits ObjetoNavidenio {
+    var property precio
+    var property destinatario
+
+    method valor(){
+        return precio
+    }
+    method valorAdjunto(){
+        return 0
+    }
+    method esRegaloTeQuieroMucho(precioPromedio){
+        return precioPromedio<precio
+    }
+}
+------------------------------------------------------------------------
+class Adorno {
+    var property peso 
+    var property coeficienteSuperioridad
+
+    method importancia(){
+        return self.importanciaBase()
+    }
+    method importanciaBase(){
+        return peso*coeficienteSuperioridad
+    }
+}
+------------------------------------------------------------------------
+class Luz inherits Adorno {
+    var property lamparas
+    override method importancia(){
+        return self.importanciaBase()*self.luminosidad()
+    }
+    method luminosidad(){
+        return lamparas
+    }
+}
+------------------------------------------------------------------------
+class Guirnaldas inherits Adorno{
+    var property anioAdquisicion
+    override method peso(){
+        return peso -100*self.cantidadAniosEnUSO()
+    }
+    Method cantidadAniosEnUSO(){
+        return self.adquirirAnioActual() - anioAdquisicion
+    }
+    method adquirirAnioActual(){
+        return new Date().year()
+    }
+}
+------------------------------------------------------------------------
+class FiguraElaborada inherits Adorno{
+    var property volumen
+    override method importanciaBase(){
+        return self.importanciaBase()+volumen
+    }
+}
+------------------------------------------------------------------------
+class Tarjeta{
+    var property destinatario
+    var property valorAdjunto
+
+    method valorDeSobre(){
+        return valorAdjunto
+    }
+
+    method valor(){
+        return 2
+    }
+
+    method capacidad(){
+        return 0
+    }
+}
+
+
